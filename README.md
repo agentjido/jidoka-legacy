@@ -1,5 +1,12 @@
 # Jidoka
 
+> **Project status:** Many features from this project are now part of Jido v3
+> and Jido AI v3. This change consolidates and simplifies the Jido ecosystem.
+> This package will remain supported at its current version, but it will not
+> receive more active development and will be phased out over time. We will
+> release a new product under the name **Jidokka**. Thank you for using and
+> supporting this project.
+
 [![Hex.pm](https://img.shields.io/hexpm/v/jidoka.svg)](https://hex.pm/packages/jidoka)
 [![Hex Docs](https://img.shields.io/badge/hex-docs-lightgreen.svg)](https://hexdocs.pm/jidoka/)
 [![CI](https://github.com/agentjido/jidoka/actions/workflows/ci.yml/badge.svg)](https://github.com/agentjido/jidoka/actions/workflows/ci.yml)
