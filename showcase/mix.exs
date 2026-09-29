@@ -30,7 +30,7 @@ defmodule JidokaShowcase.MixProject do
       {:jido_action, github: "agentjido/jido_action", branch: "main", override: true},
       {:jido_memory, "~> 1.0"},
       {:lazy_html, ">= 0.1.0", only: :test},
-      {:mdex, "~> 0.13.5"},
+      {:mdex, "~> 0.14.0"},
       {:phoenix, "~> 1.8"},
       {:phoenix_html, "~> 4.2"},
       {:phoenix_live_view, "~> 1.1"},
