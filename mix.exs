@@ -33,7 +33,7 @@ defmodule Jidoka.MixProject do
           # Spark emits macro helper modules from dependency source. The typed
           # DSL entities remain covered through their package-owned modules.
           ~r/^Jidoka\.Agent\.Dsl\.(?:Jidoka\.Agent|Tools\.|Controls\.)/,
-          ~r/^Jidoka\.Workflow\.Dsl\.Steps\./
+          ~r/^Jidoka\.Workflow\.Dsl\.(?:Steps\.|WorkflowOutput\.)/
         ],
         summary: [threshold: 90]
       ],
@@ -65,7 +65,7 @@ defmodule Jidoka.MixProject do
       {:jsv, "~> 0.22"},
       {:llm_db, "~> 2026.9"},
       {:lua, "~> 1.0.0-rc.0"},
-      {:req_llm, "~> 1.24"},
+      {:req_llm, "~> 1.25.0"},
       {:runic, "~> 0.1.0-alpha.11"},
       {:splode, "~> 0.3.0"},
       {:spark, "~> 2.6"},

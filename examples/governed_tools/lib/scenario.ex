@@ -113,9 +113,14 @@ defmodule JidokaExamples.GovernedTools.Scenario do
   end
 
   def notebook_evidence do
-    with {:ok, preflight} <- Jidoka.Kino.preflight(Agent, "Research Jidoka tool safety."),
-         {:ok, diagram} <- Jidoka.Kino.agent_diagram(Agent) do
-      {:ok, %{diagram: diagram, preflight: preflight}}
+    if Code.ensure_loaded?(Jidoka.Kino) do
+      with {:ok, preflight} <-
+             apply(Jidoka.Kino, :preflight, [Agent, "Research Jidoka tool safety."]),
+           {:ok, diagram} <- apply(Jidoka.Kino, :agent_diagram, [Agent]) do
+        {:ok, %{diagram: diagram, preflight: preflight}}
+      end
+    else
+      {:error, :kino_unavailable}
     end
   end
 

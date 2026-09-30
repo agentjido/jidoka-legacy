@@ -11,7 +11,7 @@ defmodule Jidoka.MultimodalContractTest do
   use ExUnit.Case, async: true
 
   alias Elixir.ReqLLM.Context, as: LLMContext
-  alias Elixir.ReqLLM.Error.Invalid.Provider, as: InvalidProviderError
+  alias Elixir.ReqLLM.Error.Invalid.Parameter, as: InvalidParameterError
   alias Elixir.ReqLLM.Message.ContentPart, as: LLMContentPart
   alias Elixir.ReqLLM.Response, as: LLMResponse
 
@@ -218,7 +218,7 @@ defmodule Jidoka.MultimodalContractTest do
     assert Enum.map_join(observation.content, & &1.text) =~ "Tool observation for lookup"
   end
 
-  test "ReqLLM reports sources it cannot represent without changing provider errors" do
+  test "ReqLLM reports unsupported sources and preserves model validation errors" do
     prompt = %{
       messages: [
         Message.user([
@@ -238,8 +238,10 @@ defmodule Jidoka.MultimodalContractTest do
         prompt: %{messages: [%{role: :user, content: "hello"}], operations: []}
       })
 
-    assert {:error, %InvalidProviderError{provider: :test}} =
+    assert {:error, %InvalidParameterError{parameter: parameter}} =
              ReqLLM.generate(intent, Effect.Journal.new!(), [])
+
+    assert parameter =~ "test:model cannot run chat through the catalog gateway"
   end
 
   test "ReqLLM output parts and provider metadata enter the result contract" do
