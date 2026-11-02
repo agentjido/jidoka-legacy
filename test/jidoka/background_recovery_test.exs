@@ -82,6 +82,7 @@ defmodule Jidoka.BackgroundRecoveryTest do
     assert {:ok, %Run{status: :completed, output: %{value: 42}} = finished} =
              Background.await(@runner, "run_recovery_test", timeout: 2_000)
 
+    refute_receive {:background_step_started, _duplicate_task}
     assert finished.event_count > event_count
     assert :ok = Background.stop(@runner, "run_recovery_test")
 

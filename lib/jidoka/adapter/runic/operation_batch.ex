@@ -53,7 +53,8 @@ defmodule Jidoka.Adapter.Runic.OperationBatch do
       Workflow.react_until_satisfied(workflow, %{},
         async: true,
         max_concurrency: max_parallel_operations(opts),
-        deadline_ms: remaining_turn_deadline(state, opts),
+        # CapabilityInvoker owns the remaining turn timeout and task cleanup.
+        # A Runic deadline can kill the step before it returns its typed result.
         timeout: :infinity
       )
 
@@ -137,25 +138,6 @@ defmodule Jidoka.Adapter.Runic.OperationBatch do
     opts
     |> Keyword.get(:max_parallel_operations, Config.default_max_parallel_operations())
     |> Config.normalize_positive_integer!(:max_parallel_operations)
-  end
-
-  defp remaining_turn_deadline(
-         %Turn.State{plan: %{timeout_ms: timeout_ms}, started_at_ms: started_at_ms},
-         opts
-       )
-       when is_integer(timeout_ms) and is_integer(started_at_ms) do
-    max(1, timeout_ms - (clock_ms(opts) - started_at_ms))
-  end
-
-  defp remaining_turn_deadline(%Turn.State{plan: %{timeout_ms: timeout_ms}}, _opts)
-       when is_integer(timeout_ms),
-       do: timeout_ms
-
-  defp clock_ms(opts) do
-    case Keyword.get(opts, :clock) do
-      clock when is_function(clock, 0) -> clock.()
-      _clock -> System.system_time(:millisecond)
-    end
   end
 
   defp before_operation_call(intent, journal, opts) do

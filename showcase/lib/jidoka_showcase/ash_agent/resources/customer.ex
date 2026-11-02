@@ -30,7 +30,9 @@ defmodule JidokaShowcase.AshAgent.Resources.Customer do
   end
 
   actions do
-    defaults([:read])
+    read :read do
+      primary?(true)
+    end
 
     create :create do
       description("Create a customer record")

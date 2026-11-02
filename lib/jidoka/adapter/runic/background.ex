@@ -99,10 +99,9 @@ defmodule Jidoka.Adapter.Runic.Background do
   def recover(runner, run_id, opts \\ []) when is_atom(runner) and is_binary(run_id) and is_list(opts) do
     with {:ok, run} <- get(runner, run_id),
          :ok <- require_recoverable(run),
-         {:ok, _rehydrated} <- Runner.resume(runner, run_id, opts),
-         {:ok, workflow} <- Runner.get_workflow(runner, run_id),
+         {:ok, raw_events} <- stream_events(runner, run_id),
+         workflow = rehydrate_events(raw_events, runner),
          {:ok, state} <- Runtime.recovery_state(workflow, opts),
-         :ok <- Runner.stop(runner, run_id, persist: false),
          {:ok, pid} <-
            Runner.start_workflow(
              runner,

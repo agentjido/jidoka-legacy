@@ -65,7 +65,7 @@ defmodule Jidoka.MixProject do
       {:jsv, "~> 0.22"},
       {:llm_db, "~> 2026.9"},
       {:lua, "~> 1.0.0-rc.0"},
-      {:req_llm, "~> 1.28.0"},
+      {:req_llm, "~> 1.29.0"},
       {:runic, "~> 0.1.0-alpha.11"},
       {:splode, "~> 0.3.0"},
       {:spark, "~> 2.6"},
